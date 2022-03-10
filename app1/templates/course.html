@@ -1,0 +1,174 @@
+{% extends 'base.html' %}{% load static %} {% load custom_tags %}{% block title %} COURSE{% endblock %} {% block content %}
+<style>
+    .rafay:hover {
+        text-decoration: none;
+        background-color: aqua;
+    }
+    
+    .rafay {
+        color: red;
+    }
+    
+    .active-video-link {
+        color: gray;
+    }
+    
+    .active-video-link {
+        text-decoration: none;
+        color: antiquewhite;
+    }
+</style>
+<div class="container-fluid">
+    <div>
+        {% for course in cours %}
+        <div class="col mx-auto">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="{{course.thumbnail.url}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{course.name}}</h5>
+                    <p class="card-text m-0 p-0">
+                        Save {{course.discount}}%
+                        <br>
+                        <span class="price">
+                            <del> {{course.price|rupee}}</del>
+                             &nbsp;
+                            
+                            <span>{% cal_sellprice course.pric
+                                e course.discount as value %} {{value|rupee}}  </span></p>
+                    </span>
+                </div>
+                <div class="card-footer p-0 ">
+                    <div class="row">
+                        <div class="col border-right">
+                            <a href="" class=" btn btn-lig ht ">Enroll Now</a></div>
+                        <div class="col ">
+                            <a href="/course/{{course.slug}}" class="btn btn-light  btn-block">Show More</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<div>
+    <br>
+    <div class="card p-3">
+
+
+
+        <div class="row">
+
+            <!--YOURUBE PLAYER-->
+
+            <div class="col">
+                <div class="mx-auto">
+
+                    <iframe id='player' class="mx-auto" width="100% " height="515" src="https://www.youtube.com/embed/ {{video.video_id}}  " title="YouTube video player " frameborder="0 " allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture "
+                        allowfullscreen></iframe> </div>
+
+
+            </div>
+            <!--LECTURE LIST-->
+            <div class="col-3 ">
+
+                <ul id='video_list' class=" list-group overflow-y-scroll  ">
+
+                    {% for v in videos %}
+
+
+                    <li class="list-group-item {% if v == video %} active-video {% endif %} ">
+                        <a class="rafay " class=" {% if v == video %} active-video-link {% endif %} " href="?lecture={{v.serial_number}} ">{{v}}</a></li> {% endfor %}
+                </ul>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- COURSE DETAIL-->
+
+
+
+    <div class="mt-3 ">
+        <div class="card ">
+            <div class="card-body ">
+                <h5 class="card-title ">{{course.name}}</h5>
+                <p class="card-text ">{{course.description}}</p>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--PREREQUISITE-->
+
+
+    <div class="mt-3 ">
+        <div class="card ">
+            <div class="card-body ">
+                <h5 class="card-title ">Prerequisite</h5>
+                <p class="card-text "></p>
+
+
+                <ol>
+
+                    {%for pre in course.prerequisite_set.all %}
+
+
+                    <li class=" ">{{pre.description}}</li>
+
+                    {% endfor %} </ol>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!--lEARNING-->
+<div class="mt-3 ">
+    <div class="card ">
+        <div class="card-body ">
+            <h5 class="card-title ">Prerequisite</h5>
+            <p class="card-text "></p>
+
+
+            <ol>
+
+                {%for l in course.learning_set.all %}
+
+                <li class=" ">{{l.description}}</li>
+
+                {% endfor %} </ol>
+
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+</div>
+
+</div>
+
+<!--JAVASCRIPT-->
+
+{% endblock %} {% block css %}
+<link rel="stylesheet " href="{% static 'courses/css/scrollbar.css ' %} ">
+
+
+
+
+
+<script src="{% static 'courses/js/course_page.js ' %} "></script>
+{%endblock%}
